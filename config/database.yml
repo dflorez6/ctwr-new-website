@@ -79,6 +79,9 @@ test:
 #
 production:
   <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
   database: ctwr_new_website_production
   username: ctwr_new_website
   password: <%= ENV["CTWR_NEW_WEBSITE_DATABASE_PASSWORD"] %>
