@@ -9,6 +9,12 @@ RUN apt-get update -qq && apt-get install -y nodejs postgresql-client yarn
 # Set the working directory
 WORKDIR /myapp
 
+# # Set production environment
+# ENV RAILS_ENV="production" \
+#    BUNDLE_DEPLOYMENT="1" \
+#    BUNDLE_PATH="/usr/local/bundle" \
+#    BUNDLE_WITHOUT="development"
+
 # Add the Gemfile and Gemfile.lock to the image
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
