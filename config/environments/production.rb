@@ -87,4 +87,7 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # Allow requests from the specified host (back4app)
+  config.hosts << "ctwrnewwebsite-i27r94pz.b4a.run"
 end
