@@ -89,6 +89,5 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   # Allow requests from the specified host (back4app)
-  config.hosts << "ctwrnewwebsite-i27r94pz.b4a.run"
-  config.hosts << "node87a.containers.back4app.com:5051"
+  config.hosts << ".b4a.run"
 end
