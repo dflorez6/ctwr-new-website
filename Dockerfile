@@ -1,37 +1,61 @@
 # syntax = docker/dockerfile:1
-
-# Start from the official Ruby image
 FROM ruby:3.2.4
 
-# Install Node.js and Yarn (needed for Rails asset compilation)
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client yarn
+# Install packages needed to build gems
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential libpq-dev pkg-config git libvips bash bash-completion libffi-dev tzdata postgresql nodejs npm yarn
 
-# Set the working directory
+RUN mkdir /myapp
+
 WORKDIR /myapp
 
-# # Set production environment
-# ENV RAILS_ENV="production" \
-#    BUNDLE_DEPLOYMENT="1" \
-#    BUNDLE_PATH="/usr/local/bundle" \
-#    BUNDLE_WITHOUT="development"
-
-# Add the Gemfile and Gemfile.lock to the image
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
 
-# Install gems
 RUN bundle install
 
-# Copy the rest of the application into the image
 COPY . /myapp
 
-# Expose the port that the Rails server will run on
-EXPOSE 3000
-
-# Define the command to start the server
 CMD ["rails", "server", "-b", "0.0.0.0"]
 
 
+#====================
+# back4app Dockerfile
+#====================
+# # Start from the official Ruby image
+# FROM ruby:3.2.4
+#
+# # Install Node.js and Yarn (needed for Rails asset compilation)
+# RUN apt-get update -qq && apt-get install -y nodejs postgresql-client yarn
+#
+# # Set the working directory
+# WORKDIR /myapp
+#
+# # # Set production environment
+# # ENV RAILS_ENV="production" \
+# #    BUNDLE_DEPLOYMENT="1" \
+# #    BUNDLE_PATH="/usr/local/bundle" \
+# #    BUNDLE_WITHOUT="development"
+#
+# # Add the Gemfile and Gemfile.lock to the image
+# COPY Gemfile /myapp/Gemfile
+# COPY Gemfile.lock /myapp/Gemfile.lock
+#
+# # Install gems
+# RUN bundle install
+#
+# # Copy the rest of the application into the image
+# COPY . /myapp
+#
+# # Expose the port that the Rails server will run on
+# EXPOSE 3000
+#
+# # Define the command to start the server
+# CMD ["rails", "server", "-b", "0.0.0.0"]
+
+#====================
+# Original Dockerfile
+#====================
 # # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
 # ARG RUBY_VERSION=3.2.4
 # FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
@@ -52,7 +76,8 @@ CMD ["rails", "server", "-b", "0.0.0.0"]
 #
 # # Install packages needed to build gems
 # RUN apt-get update -qq && \
-#     apt-get install --no-install-recommends -y build-essential git libpq-dev libvips pkg-config
+#     apt-get install --no-install-recommends -y build-essential libpq-dev pkg-config git libvips bash bash-completion libffi-dev tzdata postgresql nodejs npm yarn
+
 #
 # # Install application gems
 # COPY Gemfile Gemfile.lock ./
